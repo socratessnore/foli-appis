@@ -32,4 +32,4 @@ Aikataulunäkymässä pysäkin voi myös tallentaa omiin suosikkeihinsa.
 4. Suosikkinäkymä
 Suosikkinäkymästä voi nopeasti tarkastella suosikkeihinsa tallennettuja
 aikatauluja. Suosikkeja voi tästä näkymästä poistaa. Suosikeille voi 
-asettaa omia "lempinimiä."
+asettaa omia "lempinimiä."E
