@@ -1,5 +1,14 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+        div.mdl-grid.foli-grid
+            div.mdl-card.mdl-cell.mdl-cell--12-col
+
+                div.mdl-card__title.mdl-card--border
+                    h4 Pysäkkiaikataulut
+
+                div.mdl-card__supporting-text.meta.mdl-color-text--grey-600
+                    form(action='#')
+                        div.mdl-textfield.mdl-js-textield
+                            input(type='text',id='search').mdl-textfield__input
+                            label(for='search').mdl-textield__label
