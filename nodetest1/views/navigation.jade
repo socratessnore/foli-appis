@@ -1,4 +1,17 @@
-header.mdl-layout__header.foli-navigation.foli-background--white
+header.mdl-layout__header.foli-navigation
+
+    div(style='height: 75px;').mdl-layout__header-row.foli-background--white
+        div.foli-navigaatio__searchbox
+            form(action='#')
+                div(style='width:100%').mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+                    input(type='text',id='search').mdl-textfield__input.foli-color--black
+                    label(for='search').mdl-textfield__label Syötä pysäkin nimi tai numero
+        div.mdl-layout-spacer
+
+        div.foli-navigaatio__myplace
+            a(href='#')
+                i.material-icons my_location
+
     div.mdl-layout__header-row
 
         div.mdl-layout-spacer
@@ -6,11 +19,11 @@ header.mdl-layout__header.foli-navigation.foli-background--white
         nav.mdl-navigation.foli-navigation__items
             button.mdl-button.mdl-js-button
                 i.material-icons directions_bus
-                span(style='padding-left: 10px;') aikataulut
+                span(style='padding-left: 10px;').mdl-navigation__description pysäkit
             button.mdl-button.mdl-js-button
                 i.material-icons star
-                span(style='padding-left: 10px;') suosikit
+                span(style='padding-left: 10px;').mdl-navigation__description suosikit
             button.mdl-button.mdl-js-button
-                i.material-icons info
-                span(style='padding-left: 10px;') Info
+                i.material-icons map
+                span(style='padding-left: 10px;').mdl-navigation__description kartta
         div.mdl-layout-spacer

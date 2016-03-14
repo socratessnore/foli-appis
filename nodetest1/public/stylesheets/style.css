@@ -11,18 +11,32 @@ body::before {
     position: fixed;
 }
 
-body::before {
-    background-image: url('/images/background.jpg');
-}
-
 /*MDL OVERRIDE BOF*/
 .mdl-layout__header {
-    background-color: #FFF;
     justify-content: center;
 }
 
+.mdl-navigation {
+    width: 100%;
+}
+@media screen and (max-width: 1024px) {
+    .mdl-layout__header {
+        display: initial;
+    }
+}
+
+/*Piilota navigaatioelementtien tekstit kun näytön leveys alle 512.*/
+@media screen and (max-width: 512px) {
+    .mdl-navigation__description {
+        display: none;
+    }
+}
+
+.mdl-layout__header-row {
+    padding: 0px 20px 0px 20px;
+}
+
 .mdl-layout__header-row .mdl-navigation__link {
-    color: #000;
 }
 /*MDL OVERRIDE EOF*/
 
@@ -34,13 +48,38 @@ body::before {
 
 /*Navigation*/
 .foli-navigation {
-    height: 15vh;
-    min-height: 100px;
+
+}
+
+.foli-navigation a {
+    color: #3F51B5;
+}
+
+.foli-navigation__items a {
+    width: 33%;
+    height: 100%;
+    padding-top: 2em;
+    color: #FFF;
+}
+
+.foli-background--white {
+    background-color: #FFF;
+}
+
+.foli-navigaatio__searchbox {
+    width: 90%;
+}
+
+.foli-navigaatio__myplace {
+    width: 10%;
+    text-align: center;
     color: black;
 }
 
-.foli-navigation__items button {
-    width: 200px;
-    height: 100%
+.foli-navigaatio__myplace .material-icons {
+    font-size: 2.5em;
 }
 
+.foli-color--black {
+    color: black;
+}
