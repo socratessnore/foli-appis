@@ -1,9 +1,10 @@
 logs/*
 !.gitkeep
-node_modules/
+nodetest1/node_modules/
 bower_components/
 tmp
 .DS_Store
 .idea
-debug.log
+nodetest1/*debug.log
+nodetest1/data.zip
 www_foli
