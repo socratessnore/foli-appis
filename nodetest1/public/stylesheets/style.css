@@ -35,9 +35,6 @@ body::before {
 .mdl-layout__header-row {
     padding: 0px 20px 0px 20px;
 }
-
-.mdl-layout__header-row .mdl-navigation__link {
-}
 /*MDL OVERRIDE EOF*/
 
 /*Grid*/
@@ -47,18 +44,18 @@ body::before {
 }
 
 /*Navigation*/
-.foli-navigation {
-
+.mdl-textfield__input {
+    color: #000;
 }
 
 .foli-navigation a {
     color: #3F51B5;
+    display: block;
 }
 
-.foli-navigation__items a {
+.foli-navigation__items button {
     width: 33%;
     height: 100%;
-    padding-top: 2em;
     color: #FFF;
 }
 
@@ -78,8 +75,4 @@ body::before {
 
 .foli-navigaatio__myplace .material-icons {
     font-size: 2.5em;
-}
-
-.foli-color--black {
-    color: black;
 }
