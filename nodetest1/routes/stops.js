@@ -33,8 +33,8 @@ function getAll(url) {
 function getNextTimes(stop) {
 	var full_url = 'http://data.foli.fi/siri/sm/'+stop.toString()+'/pretty'
 	
-	var parsed = http.get(full_url, function(response) {
-		var chunks = '';
+	var chunks = '';
+	http.get(full_url, function(response) {	
 		
 		//debug stuff
 		console.log(`Got response: ${response.statusCode}`);
@@ -46,24 +46,17 @@ function getNextTimes(stop) {
 		});
 		
 		response.on("end", function() {
-			console.log(chunks);
 			console.log("reached end");
+			console.log(chunks);
 		});
-		return data;
 	});
-	console.log(parsed);
-	console.log("NOO");
-	return parsed;
 };
 
 //handle given stop parameter and print it on page
 stop_api.param('stop', function(req, res, next, stop) {
 	//get stop parameter from route.
-	var finished = getNextTimes(stop);
-	console.log(finished);
-	console.log("TÄÄLLÄKIN OLTIIN");
-	var sendable = JSON.parse(finished);
-	res.send(sendable);
+	getNextTimes(stop);
+	res.send("OK");
 });
 
 //GET us a listing of bus stops by (a) keyword(s).

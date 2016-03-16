@@ -7,4 +7,5 @@ tmp
 .idea
 nodetest1/*debug.log
 nodetest1/data.zip
+nodetest1/data/
 www_foli
