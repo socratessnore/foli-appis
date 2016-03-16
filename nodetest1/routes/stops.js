@@ -1,12 +1,14 @@
 var express = require('express');
 var http = require('follow-redirects').http;
 var fs = require('fs');
-var router = express.Router();
+var stop_api = express.Router();
+
+
 
 //get everything from a chosen endpoint.
 function getAll(url) {
 	
-	var body = "";
+	var data = "";
 
 	http.get(url, function(response) {
 		//debug stuff
@@ -15,50 +17,65 @@ function getAll(url) {
 		//set encoding to UTF-8.
 		response.setEncoding('utf8');
 		
-		response.on("data", function(chunk) {;
-			console.log(chunk);
-			var parsed = JSON.parse(chunk);
-			console.log(parsed);
+		response.on("data", function(chunk) {
+			console.log(`BODY: ` + chunk.toString());
+			data += chunk;
 		});
 		response.on("end", function() {
-			//console.log('BODY: ' + body);
-			console.log('reached end');
-			return body;
-			//res.send(parsed);
+			console.log("reached end");
+			return data;
 		});
 
 	});
 };
 
-//download latest data package from foli (overwriting the old.)
-//Foli does a redirect when you want to download it so follow-redirects package redirects
-function updateData(cb) {
-	var file = fs.createWriteStream("data.zip");
-	http.get("http://data.foli.fi/gtfs/gtfs.zip", function(response) {
-		var redirect = null;
-		if (response.statusCode === 302) {
-			var location = response.headers[hasHeader('location', response.headers)]
-		}
-		response.pipe(file);
-		file.on('finish', function() {
-			console.log('file downloaded');
-			file.close(cb);
-			return file;
+//get calculated times from Föli SIRI -API for chosen stop.
+function getNextTimes(stop) {
+	var full_url = 'http://data.foli.fi/siri/sm/'+stop.toString()+'/pretty'
+	
+	var parsed = http.get(full_url, function(response) {
+		var chunks = '';
+		
+		//debug stuff
+		console.log(`Got response: ${response.statusCode}`);
+		
+		response.setEncoding('utf8');
+		
+		response.on("data", function(chunk) {
+			chunks += chunk;
 		});
+		
+		response.on("end", function() {
+			console.log(chunks);
+			console.log("reached end");
+		});
+		return data;
 	});
+	console.log(parsed);
+	console.log("NOO");
+	return parsed;
 };
+
+//handle given stop parameter and print it on page
+stop_api.param('stop', function(req, res, next, stop) {
+	//get stop parameter from route.
+	var finished = getNextTimes(stop);
+	console.log(finished);
+	console.log("TÄÄLLÄKIN OLTIIN");
+	var sendable = JSON.parse(finished);
+	res.send(sendable);
+});
 
 //GET us a listing of bus stops by (a) keyword(s).
 //BUGGED it returns some sort of badly encoded vomit
-router.get('/', function(res, req, next) {
+stop_api.get('/', function(res, req, next) {
 		
-	console.log(getAll('http://data.foli.fi/gtfs/stop_times/stop'));
+	getAll('http://data.foli.fi/gtfs/stop_times/stop');
 	
 });
 
-//download latest data package and integrate it into Mongodb
-router.get('/updatedata', function(res, req, next) {
-	updateData();
+stop_api.get('/:stop', function(res, req) {
+
 });
 
-module.exports = router;
+module.exports = stop_api;
