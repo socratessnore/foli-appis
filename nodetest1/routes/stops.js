@@ -16,8 +16,9 @@ function getAll(url) {
 		response.setEncoding('utf8');
 		
 		response.on("data", function(chunk) {;
-			body += chunk;
-			console.log(body);
+			console.log(chunk);
+			var parsed = JSON.parse(chunk);
+			console.log(parsed);
 		});
 		response.on("end", function() {
 			//console.log('BODY: ' + body);
@@ -51,8 +52,7 @@ function updateData(cb) {
 //BUGGED it returns some sort of badly encoded vomit
 router.get('/', function(res, req, next) {
 		
-	console.log(getAll('http://data.foli.fi/gtfs/v0/20160304-150630/shapes'));
-	res.send(getAll('http://data.foli.fi/gtfs/v0/20160304-150630/shapes'));
+	console.log(getAll('http://data.foli.fi/gtfs/stop_times/stop'));
 	
 });
 

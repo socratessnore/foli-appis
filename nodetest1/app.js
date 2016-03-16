@@ -7,8 +7,6 @@ var bodyParser = require('body-parser');
 
 //MongoDB imports
 var mongo = require('mongodb');
-var monk = require('monk');
-var db = monk('localhost:27017/nodetest1');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -28,9 +26,14 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+//routes (or, URLs)
 app.use('/', routes);
 app.use('/users', users);
 app.use('/stops', stops);
+
+//make our db accessible to router
+//THIS is SUBOPTIMAL since it gets called lots of times
+//possibly doesnt cause any trouble since only static data (GTFS) is served but hey who knows?
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
