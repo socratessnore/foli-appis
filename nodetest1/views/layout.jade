@@ -12,14 +12,29 @@ html
 
         meta(name='viewport' content='width=device-width, initial-scale=1.0')
 
+        <!-- 1. Load libraries -->
+        <!-- IE required polyfills, in this exact order -->
+        script(src="/static/es6-shim/es6-shim.min.js")
+        script(src="/static/systemjs/dist/system-polyfills.js")
+        script(src="/static/angular2/bundles/angular2-polyfills.js")
+        script(src="/static/systemjs/dist/system.src.js")
+        script(src="/static/rxjs/bundles/Rx.js")
+        script(src="/static/angular2/bundles/angular2.dev.js")
+
+        script.
+            System.config({
+                packages: {
+                    app: {
+                        format: 'register',
+                        defaultExtension: 'js'
+                    }
+                }
+            });
+
+            System.import('app/main')
+            .then(null, console.error.bind(console));
+
     body
-        div.mdl-layout.mdl-js-layout.mdl-layout--fixed-header
-
-            main.mdl-layout__content
-                block content
-
-            nav.mdl-layout__header
-                include navigation
-
+        my-app
 
 
