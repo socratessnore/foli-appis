@@ -28,13 +28,22 @@ html
         script(src="/static/angular2/bundles/angular2.dev.js")
         script(src="/static/angular2/bundles/router.dev.js")
 
+        //GOOGLE MAPS
+        script(src="/static/angular2-google-maps/bundles/angular2-google-maps.js")
+
         script.
             System.config({
                 packages: {
                     app: {
                         format: 'register',
                         defaultExtension: 'js'
+                    },
+                    'angular2-google-maps': {
+                        defaultExtension: 'js'
                     }
+                },
+                map: {
+                    'angular2-google-maps': 'static/angular2-google-maps'
                 }
             });
 

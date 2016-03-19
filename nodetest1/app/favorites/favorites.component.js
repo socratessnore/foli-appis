@@ -22,7 +22,7 @@ System.register(["angular2/core"], function(exports_1) {
                 FavoritesComponent = __decorate([
                     core_1.Component({
                         selector: 'favorites-component',
-                        template: "<h4>Suosikit</h4>"
+                        template: "\n    <h4>Suosikit</h4>\n    "
                     }), 
                     __metadata('design:paramtypes', [])
                 ], FavoritesComponent);

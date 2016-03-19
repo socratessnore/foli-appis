@@ -13,7 +13,9 @@ import {Input} from "angular2/core";
     template: `
     <div mdl class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
 
-        <router-outlet></router-outlet>
+        <main class="mdl-layout__content">
+            <router-outlet></router-outlet>
+        </main>
 
         <header class="mdl-layout__header foli-navigation">
 
