@@ -1,6 +1,8 @@
 import {Component} from "angular2/core";
+import {MDL} from "../mdl.directive";
 @Component({
     selector: 'dashboard-component',
+    directives: [MDL],
     template: `
     <h4>Pysäkit</h4>
 
@@ -22,7 +24,7 @@ import {Component} from "angular2/core";
             <form action="#">
 
                 <div style="width: 100%" class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                    <input type="text" id="search" class="mdl-textfield__input foli-color--black">
+                    <input mdl type="text" id="search" class="mdl-textfield__input foli-color--black">
                     <label for="search" class="mdl-textfield__label">Syötä pysäkin nimi tai numero</label>
                 </div>
             </form>

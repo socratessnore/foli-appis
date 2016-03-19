@@ -11,7 +11,7 @@ import {Input} from "angular2/core";
 @Component({
     selector: 'my-app',
     template: `
-    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+    <div mdl class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
 
         <router-outlet></router-outlet>
 
@@ -52,5 +52,4 @@ import {Input} from "angular2/core";
   {path: '/favorites', name: 'Favorites', component: FavoritesComponent},
   {path: '/map', name: 'Map', component: MapComponent}
 ])
-export class AppComponent {
-}
+export class AppComponent {}
