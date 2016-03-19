@@ -23,7 +23,7 @@ System.register(["angular2/core"], function(exports_1) {
                 DashboardComponent = __decorate([
                     core_1.Component({
                         selector: 'dashboard-component',
-                        template: '<h4>testi</h4>'
+                        template: "\n    <h4>Pys\u00E4kit</h4>\n\n    <ul class=\"mdl-list\">\n        <li class=\"mdl-list__item mdl-list__item--three-line\">\n            <span class=\"mdl-list__item-primary-content\">\n                <i class=\"material-icons mdl-list__item-avatar\">directions_bus</i>\n                <span>Nostov\u00E4enkatu #982</span>\n                <span class=\"mdl-list__item-text-body\">Linjat 18, 88</span>\n            </span>\n            <span class=\"mdl-list__item-secondary-content\">\n                <i class=\"material-icons\">directions</i>\n            </span>\n        </li>\n    </ul>"
                     }), 
                     __metadata('design:paramtypes', [])
                 ], DashboardComponent);

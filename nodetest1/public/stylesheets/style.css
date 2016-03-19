@@ -1,16 +1,3 @@
-body::before {
-    background-size: cover;
-    background-attachment: fixed;
-    content: '';
-    will-change: transform;
-    z-index: -1;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    top: 0;
-    position: fixed;
-}
-
 /*MDL OVERRIDE BOF*/
 .mdl-layout__header {
     justify-content: center;
@@ -19,10 +6,10 @@ body::before {
 .mdl-navigation {
     width: 100%;
 }
-@media screen and (max-width: 1024px) {
-    .mdl-layout__header {
-        display: initial;
-    }
+
+header {
+    position: absolute;
+    bottom: 0;
 }
 
 /*Piilota navigaatioelementtien tekstit kun näytön leveys alle 512.*/
@@ -71,8 +58,4 @@ body::before {
     width: 10%;
     text-align: center;
     color: black;
-}
-
-.foli-navigaatio__myplace .material-icons {
-    font-size: 2.5em;
 }

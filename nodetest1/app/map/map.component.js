@@ -22,7 +22,7 @@ System.register(["angular2/core"], function(exports_1) {
                 MapComponent = __decorate([
                     core_1.Component({
                         selector: 'map-component',
-                        template: '<h5>Map</h5>'
+                        template: '<h4>Pysäkit kartalla</h4>'
                     }), 
                     __metadata('design:paramtypes', [])
                 ], MapComponent);
