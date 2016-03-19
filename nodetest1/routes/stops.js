@@ -6,30 +6,26 @@ var Q = require('q');
 
 
 //get everything from a chosen endpoint.
-function getAll(url) {
-	
-	var data = "";
+function getAll(url) {	
+	return Q.promise(function(resolve, reject, notify) {
+		var data = "";
 
+		http.get(url, function(response) {
+			//debug stuff
+			console.log(`Got response: ${response.statusCode}`);
+			
+			//set encoding to UTF-8.
+			response.setEncoding('utf8');
+			
+			response.on("data", function(chunk) {
+				data += chunk;
+			});
+			response.on("end", function() {
+				resolve(data);
+			});
 
-
-	http.get(url, function(response) {
-		//debug stuff
-		console.log(`Got response: ${response.statusCode}`);
-		
-		//set encoding to UTF-8.
-		response.setEncoding('utf8');
-		
-		response.on("data", function(chunk) {
-			console.log(`BODY: ` + chunk.toString());
-			data += chunk;
 		});
-		response.on("end", function() {
-			console.log("reached end");
-			return data;
-		});
-
 	});
-
 };
 
 //get calculated times from Föli SIRI -API for chosen stop.
@@ -75,17 +71,18 @@ stop_api.param('stop', function(req, res, next, stop) {
 
     //Esimerkkimallinen käsittely getNextTimes -promiselle.
 
-    getNextTimes(19).then(
+    getNextTimes(stop).then(
         //JOS KAIKKI ON
         function(response) {
-            console.log(response);
-            res.send("OK");
+            console.log("Got OK stop data");
+            res.send(JSON.parse(response));
         }
     ).catch(
         //JOS NAPATAAN VIRHE NIIN
         function(err) {
             console.error(err);
-            res.send("NOT OK");
+            var errorjson = {"Error":"Something went wrong"};
+            res.send(JSON.parse(errorjson));
         }
     );
 
@@ -96,7 +93,6 @@ stop_api.param('stop', function(req, res, next, stop) {
 stop_api.get('/', function(res, req, next) {
 
 	getAll('http://data.foli.fi/gtfs/stop_times/stop');
-
 });
 
 stop_api.get('/:stop', function(res, req) {
