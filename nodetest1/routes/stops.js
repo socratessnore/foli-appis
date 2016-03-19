@@ -90,11 +90,27 @@ stop_api.param('stop', function(req, res, next, stop) {
 
 //GET us a listing of bus stops by (a) keyword(s).
 //BUGGED it returns some sort of badly encoded vomit
-stop_api.get('/', function(res, req, next) {
-
-	getAll('http://data.foli.fi/gtfs/stop_times/stop');
+//look into this. This endpoint should be functional otherwise!
+stop_api.get('/', function(req, res, next) {
+	console.log("EMPTY");
+	
+	getAll('http://data.foli.fi/gtfs/stops').then(
+		//JOS KAIKKI ON
+        function(response) {
+            console.log("Got OK stop data");
+            res.send(response);
+        }
+    ).catch(
+        //JOS NAPATAAN VIRHE NIIN
+        function(err) {
+            console.error(err);
+            var errorjson = {"Error":"Something went wrong"};
+            res.send(JSON.parse(errorjson));
+        }
+    );
 });
 
+//endpoint to get nearby time by a stop
 stop_api.get('/:stop', function(res, req) {
 
 });
