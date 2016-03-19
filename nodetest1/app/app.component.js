@@ -1,4 +1,4 @@
-System.register(['angular2/core'], function(exports_1) {
+System.register(['angular2/core', "angular2/router", "./dashboard/dashboard.component", "./favorites/favorites.component", "./map/map.component"], function(exports_1) {
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,12 +8,25 @@ System.register(['angular2/core'], function(exports_1) {
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1;
+    var core_1, router_1, router_2, dashboard_component_1, favorites_component_1, map_component_1;
     var AppComponent;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
+            },
+            function (router_1_1) {
+                router_1 = router_1_1;
+                router_2 = router_1_1;
+            },
+            function (dashboard_component_1_1) {
+                dashboard_component_1 = dashboard_component_1_1;
+            },
+            function (favorites_component_1_1) {
+                favorites_component_1 = favorites_component_1_1;
+            },
+            function (map_component_1_1) {
+                map_component_1 = map_component_1_1;
             }],
         execute: function() {
             AppComponent = (function () {
@@ -22,8 +35,14 @@ System.register(['angular2/core'], function(exports_1) {
                 AppComponent = __decorate([
                     core_1.Component({
                         selector: 'my-app',
-                        template: '<h1>My First Angular 2 App</h1>'
-                    }), 
+                        template: "\n        <router-outlet></router-outlet>\n        <h1>asf</h1>\n        <a [routerLink]=\"['Dashboard']\">Pys\u00E4kit</a>\n        <a [routerLink]=\"['Favorites']\">Suosikit</a>\n        <a [routerLink]=\"['Map']\">Kartta</a>\n    ",
+                        directives: [dashboard_component_1.DashboardComponent, router_2.ROUTER_DIRECTIVES]
+                    }),
+                    router_1.RouteConfig([
+                        { path: '/', name: 'Dashboard', component: dashboard_component_1.DashboardComponent, useAsDefault: true },
+                        { path: '/favorites', name: 'Favorites', component: favorites_component_1.FavoritesComponent },
+                        { path: '/map', name: 'Map', component: map_component_1.MapComponent }
+                    ]), 
                     __metadata('design:paramtypes', [])
                 ], AppComponent);
                 return AppComponent;
