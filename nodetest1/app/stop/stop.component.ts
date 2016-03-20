@@ -1,18 +1,77 @@
 import {Component} from "angular2/core";
 import {Http} from "angular2/http";
 import {NgFor} from "angular2/common";
+import {Pipe} from "angular2/core";
+import {Directive} from "angular2/core";
+import {ElementRef} from "angular2/core";
+
+@Directive({
+    selector: '[StyleFilter]',
+    host: {
+        '(click)': 'toggle()',
+    }
+})
+export class StyleFilter {
+
+    private selected = false;
+
+    constructor(public _elementRef: ElementRef) {}
+
+    private toggle() {
+        this.selected = !this.selected;
+        if(!this.selected) {
+            this._elementRef.nativeElement.style.backgroundColor = "#3F51B5";
+        } else {
+            this._elementRef.nativeElement.style.backgroundColor = "gray";
+        }
+    }
+}
+
+@Pipe({
+    name: 'filter',
+    pure: false
+})
+export class FilterPipe {
+    transform(value, term) {
+
+        value = value.filter(function(x) {
+
+            if(term[0].length < 1) return true;
+
+            for(var i in term[0]) {
+                if(x.lineref == term[0][i]) {
+                    return true;
+                }
+            }
+
+        });
+
+        return value;
+
+        //console.log("PIPE "+ value);
+    }
+}
 
 @Component({
     selector: 'stop-component',
+    pipes: [FilterPipe],
+    directives: [StyleFilter],
     template: `
         <div class="stop-listing mdl-padding--1em">
 
             <h4>Linja-autoasema #19</h4>
 
-            <span *ngFor="#busline of buslines" style="display: inline-block; padding: 5px; margin-bottom: 3px; margin-left: 3px; background-color: #3F51B5; font-weight: bold; color: white;">Linja {{ busline }}</span>
+            <div
+                *ngFor="#busline of buslines"
+                StyleFilter
+                (click)="filterLine(busline)"
+                class="foli-busline__tag"
+            >
+                Linja {{ busline }}
+            </div>
 
             <ul class="mdl-list">
-                <li *ngFor="#stop of stops.result" class="mdl-list__item mdl-list__item--three-line">
+                <li *ngFor="#stop of stops.result | filter : filteredBuslines" class="mdl-list__item mdl-list__item--three-line">
                     <span class="mdl-list__item-primary-content">
                         <div style="text-align: center" class="mdl-list__item-avatar">
                             <span style="position: relative; top: 2px; font-weight: bold; text-align: center; font-size: 16px">{{ stop.lineref }}</span>
@@ -38,14 +97,25 @@ export class StopComponent {
 
     private buslines = [];
 
+    private filteredBuslines = [];
+
     private showMinutesLimit = 20;
 
     constructor(public _http: Http) {};
 
+    private filterLine(e) {
+
+        if(!(this.filteredBuslines.indexOf(e) > -1)) {
+            this.filteredBuslines.push(e);
+        } else {
+            this.filteredBuslines.splice(this.filteredBuslines.indexOf(e), 1);
+        }
+
+    }
+
     private minutesToBus(arrivalTime:number) : number {
 
         var currentTime = new Date(Date.now());
-        console.log(currentTime);
         currentTime = currentTime.getTime()/1000;
         //var currentTime = (Date.now()/1000);
 
@@ -85,8 +155,6 @@ export class StopComponent {
                 this.buslines = this.buslines.sort(function(a, b) {
                     return parseInt(a) - parseInt(b)
                 });
-
-                console.log(this.buslines);
 
             }
         );

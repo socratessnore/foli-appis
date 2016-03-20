@@ -73,6 +73,16 @@ header {
     padding-left: 1em;
 }
 
+.foli-busline__tag {
+    display: inline-block;
+    padding: 5px;
+    margin-bottom: 3px;
+    margin-left: 3px;
+    background-color: #3F51B5;
+    font-weight: bold;
+    color: white;
+}
+
 /*GOOGLE MAPS*/
 @media screen and (max-width: 992px) {
     .sebm-google-map-container,
