@@ -7,6 +7,7 @@ import {MapComponent} from "./map/map.component";
 import {ElementRef} from "angular2/core";
 import {Directive} from "angular2/core";
 import {Input} from "angular2/core";
+import {StopComponent} from "./stop/stop.component";
 
 @Component({
     selector: 'my-app',
@@ -52,6 +53,7 @@ import {Input} from "angular2/core";
 @RouteConfig([
   {path: '/', name: 'Dashboard', component: DashboardComponent, useAsDefault: true},
   {path: '/favorites', name: 'Favorites', component: FavoritesComponent},
+  {path: '/stop/:id', name: 'Stop', component: StopComponent},
   {path: '/map', name: 'Map', component: MapComponent}
 ])
 export class AppComponent {}

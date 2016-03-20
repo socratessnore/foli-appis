@@ -22,6 +22,11 @@ header {
 .mdl-layout__header-row {
     padding: 0px 20px 0px 20px;
 }
+
+.mdl-list__item-avatar,
+.mdl-list__item-avatar.material-icons {
+    border-radius: 0;
+}
 /*MDL OVERRIDE EOF*/
 
 /*Grid*/
@@ -60,14 +65,24 @@ header {
     color: black;
 }
 
+.stop-listing {
+    overflow-y: scroll;
+}
+
+.mdl-padding--1em {
+    padding-left: 1em;
+}
+
 /*GOOGLE MAPS*/
-@media screen and (max-width: 512px) {
-    .sebm-google-map-container {
+@media screen and (max-width: 992px) {
+    .sebm-google-map-container,
+    .stop-listing {
         height: calc(100vh - 56px);
     }
 }
-@media screen and (min-width: 512px) {
-    .sebm-google-map-container {
+@media screen and (min-width: 992px) {
+    .sebm-google-map-container,
+    .stop-listing {
         height: calc(100vh - 64px);
     }
 }
