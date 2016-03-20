@@ -21,14 +21,14 @@ System.register(["angular2/core", 'angular2-google-maps/core'], function(exports
         execute: function() {
             MapComponent = (function () {
                 function MapComponent() {
-                    this.lat = 44.3;
-                    this.lng = 33.2;
+                    this.lng = 22.262516;
+                    this.lat = 60.463048;
+                    this.zoom = 11;
                 }
                 MapComponent = __decorate([
                     core_1.Component({
                         selector: 'map-component',
-                        styles: ["\n    .sebm-google-map-container {\n      height: 100%;\n    }\n  "],
-                        template: "\n        <div style=\"height: 100vh\">\n            <sebm-google-map [latitude]=\"lat\" [longitude]=\"lng\">\n\t    \t</sebm-google-map>\n        </div>\n    ",
+                        template: "\n            <sebm-google-map [latitude]=\"lat\" [longitude]=\"lng\" [zoom]=\"zoom\">\n\t    \t</sebm-google-map>\n    ",
                         directives: [core_2.ANGULAR2_GOOGLE_MAPS_DIRECTIVES]
                     }), 
                     __metadata('design:paramtypes', [])

@@ -19,10 +19,6 @@ header {
     }
 }
 
-.mdl-layout__content {
-    padding: 1em;
-}
-
 .mdl-layout__header-row {
     padding: 0px 20px 0px 20px;
 }
@@ -62,4 +58,16 @@ header {
     width: 10%;
     text-align: center;
     color: black;
+}
+
+/*GOOGLE MAPS*/
+@media screen and (max-width: 512px) {
+    .sebm-google-map-container {
+        height: calc(100vh - 56px);
+    }
+}
+@media screen and (min-width: 512px) {
+    .sebm-google-map-container {
+        height: calc(100vh - 64px);
+    }
 }
