@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2-google-maps/services', "angular2/http"], function(exports_1) {
+System.register(['angular2/core', 'angular2-google-maps/services', "angular2/http", "angular2/core", "angular2/router"], function(exports_1) {
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,7 +8,7 @@ System.register(['angular2/core', 'angular2-google-maps/services', "angular2/htt
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, services_1, http_1;
+    var core_1, services_1, http_1, core_2, router_1, core_3;
     var MyMapControlComponent;
     return {
         setters:[
@@ -20,29 +20,49 @@ System.register(['angular2/core', 'angular2-google-maps/services', "angular2/htt
             },
             function (http_1_1) {
                 http_1 = http_1_1;
+            },
+            function (core_2_1) {
+                core_2 = core_2_1;
+                core_3 = core_2_1;
+            },
+            function (router_1_1) {
+                router_1 = router_1_1;
             }],
         execute: function() {
             MyMapControlComponent = (function () {
-                function MyMapControlComponent(_http, _wrapper) {
+                function MyMapControlComponent(_http, _wrapper, _ngZone, _renderer) {
                     var _this = this;
                     this._http = _http;
                     this._wrapper = _wrapper;
+                    this._ngZone = _ngZone;
+                    this._renderer = _renderer;
                     this._wrapper.getMap().then(function (m) {
                         _this._map = m;
+                        m.setCenter(new google.maps.LatLng(60.463048, 22.262516));
+                        m.setOptions({ Zoom: 15, minZoom: 14, maxZoom: 18 });
                         _this.fetchData();
+                        _this._info = new google.maps.InfoWindow({});
                     });
                 }
-                MyMapControlComponent.prototype.createMarker = function (coordinate) {
-                    var marker = new google.maps.Marker({
-                        map: this._map,
-                        position: coordinate,
+                MyMapControlComponent.prototype.createMarker = function (coordinate, stopID, name) {
+                    var _this = this;
+                    this._ngZone.run(function () {
+                        var marker = new google.maps.Marker({
+                            map: _this._map,
+                            position: coordinate
+                        });
+                        var map = _this._map;
+                        var infoWindow = _this._info;
+                        var stop = stopID;
+                        google.maps.event.addListener(marker, 'click', function (event) {
+                            infoWindow.setContent("<b>#" + stop + " " + name + "</b><p style='margin-top: 1em; font-size: 16px;'><a href='/stop/" + stopID + "/'>Näytä aikataulut</a></p>");
+                            infoWindow.open(map, marker);
+                        });
                     });
-                    //TODO add listener to marker which opens infowindow on click
                 };
-                ;
                 MyMapControlComponent.prototype.fetchData = function () {
                     var _this = this;
-                    var tableID = '1obKzxr6MX39Ilft9FMwv5odXiQYnpwnQlYNFD6-Y';
+                    var tableID = '1OomM1Wvxa_QzgyPOyq5C4HY65E8RH8j8_udGaISp';
                     var apiKey = 'AIzaSyCG8H8gjq3QPYZ_V3_mEAXlb6c8SorVHO4';
                     // Construct a query to get data from the Fusion Table
                     // EDIT this list to include the variables for columns named above
@@ -56,19 +76,21 @@ System.register(['angular2/core', 'angular2-google-maps/services', "angular2/htt
                     this._http.get(url.join('')).subscribe(function (res) {
                         var test = res.json();
                         var rows = test['rows'];
-                        var coordinate;
                         for (var i in rows) {
-                            coordinate = new google.maps.LatLng(rows[i][3], rows[i][4]);
-                            _this.createMarker(coordinate);
+                            var coordinate = new google.maps.LatLng(rows[i][3], rows[i][4]);
+                            var stopID = rows[i][0];
+                            var name = rows[i][1];
+                            _this.createMarker(coordinate, stopID, name);
                         }
                     }, function (err) { return console.error(err); });
                 };
                 MyMapControlComponent = __decorate([
                     core_1.Component({
                         selector: 'my-map-control',
-                        template: ''
+                        template: '',
+                        directives: [router_1.ROUTER_DIRECTIVES]
                     }), 
-                    __metadata('design:paramtypes', [http_1.Http, services_1.GoogleMapsAPIWrapper])
+                    __metadata('design:paramtypes', [http_1.Http, services_1.GoogleMapsAPIWrapper, core_2.NgZone, core_3.Renderer])
                 ], MyMapControlComponent);
                 return MyMapControlComponent;
             })();

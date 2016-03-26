@@ -2,35 +2,61 @@ import {Component} from 'angular2/core';
 import {GoogleMapsAPIWrapper} from 'angular2-google-maps/services';
 import {Jsonp} from "angular2/http";
 import {Http} from "angular2/http";
+import {NgZone} from "angular2/core";
+import {ROUTER_DIRECTIVES} from "angular2/router";
+import {Renderer} from "angular2/core";
 
 @Component({
     selector: 'my-map-control',
-    template: ''
+    template: '',
+    directives: [ROUTER_DIRECTIVES]
 })
 export class MyMapControlComponent {
 
     private _map;
+    private _marker;
 
-    constructor(public _http: Http, private _wrapper: GoogleMapsAPIWrapper) {
+    constructor(
+        public _http: Http,
+        public _wrapper: GoogleMapsAPIWrapper,
+        public _ngZone: NgZone,
+        public _renderer: Renderer
+    ) {
         this._wrapper.getMap().then((m) => {
-            this._map = m
+            this._map = m;
+            m.setCenter(new google.maps.LatLng(60.463048, 22.262516));
+            m.setOptions({ Zoom: 15, minZoom: 14, maxZoom: 18 });
             this.fetchData();
+
+            this._info = new google.maps.InfoWindow({});
         });
 
     }
 
-    public createMarker (coordinate) {
-        var marker = new google.maps.Marker({
-            map: this._map,
-            position: coordinate,
+    public createMarker (coordinate, stopID, name) {
+        this._ngZone.run(() => {
+
+            var marker = new google.maps.Marker({
+                map: this._map,
+                position: coordinate
+            });
+
+            var map = this._map;
+            var infoWindow = this._info;
+            var stop = stopID;
+
+            google.maps.event.addListener(marker, 'click', function (event) {
+                infoWindow.setContent("<b>#"+ stop + " " + name + "</b><p style='margin-top: 1em; font-size: 16px;'><a href='/stop/"+stopID+"/'>Näytä aikataulut</a></p>");
+                infoWindow.open(map, marker);
+            });
+
         });
 
-        //TODO add listener to marker which opens infowindow on click
-    };
+    }
 
     public fetchData() {
 
-        var tableID = '1obKzxr6MX39Ilft9FMwv5odXiQYnpwnQlYNFD6-Y';
+        var tableID = '1OomM1Wvxa_QzgyPOyq5C4HY65E8RH8j8_udGaISp';
         var apiKey = 'AIzaSyCG8H8gjq3QPYZ_V3_mEAXlb6c8SorVHO4';
 
         // Construct a query to get data from the Fusion Table
@@ -50,11 +76,11 @@ export class MyMapControlComponent {
 
             var rows = test['rows'];
 
-			var coordinate;
-
             for (var i in rows) {
-                coordinate = new google.maps.LatLng(rows[i][3],rows[i][4]);
-                this.createMarker(coordinate);
+                var coordinate = new google.maps.LatLng(rows[i][3],rows[i][4]);
+                var stopID = rows[i][0];
+                var name = rows[i][1];
+                this.createMarker(coordinate, stopID, name);
 			}
 
         },
