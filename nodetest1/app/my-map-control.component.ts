@@ -36,8 +36,7 @@ export class MyMapControlComponent {
     }
 
     public createMarker (coordinate, stopID, name) {
-
-
+        
             var marker = new google.maps.Marker({
                 map: this._map,
                 position: coordinate
