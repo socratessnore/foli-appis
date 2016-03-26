@@ -1,4 +1,4 @@
-System.register(["angular2/core", 'angular2-google-maps/core'], function(exports_1) {
+System.register(["angular2/core", 'angular2-google-maps/core', "angular2/http", "../my-map-control.component"], function(exports_1) {
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,7 +8,7 @@ System.register(["angular2/core", 'angular2-google-maps/core'], function(exports
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, core_2;
+    var core_1, core_2, http_1, my_map_control_component_1;
     var MapComponent;
     return {
         setters:[
@@ -17,10 +17,17 @@ System.register(["angular2/core", 'angular2-google-maps/core'], function(exports
             },
             function (core_2_1) {
                 core_2 = core_2_1;
+            },
+            function (http_1_1) {
+                http_1 = http_1_1;
+            },
+            function (my_map_control_component_1_1) {
+                my_map_control_component_1 = my_map_control_component_1_1;
             }],
         execute: function() {
             MapComponent = (function () {
-                function MapComponent() {
+                function MapComponent(_http) {
+                    this._http = _http;
                     this.lng = 22.262516;
                     this.lat = 60.463048;
                     this.zoom = 11;
@@ -28,10 +35,10 @@ System.register(["angular2/core", 'angular2-google-maps/core'], function(exports
                 MapComponent = __decorate([
                     core_1.Component({
                         selector: 'map-component',
-                        template: "\n            <sebm-google-map [latitude]=\"lat\" [longitude]=\"lng\" [zoom]=\"zoom\">\n\t    \t</sebm-google-map>\n    ",
-                        directives: [core_2.ANGULAR2_GOOGLE_MAPS_DIRECTIVES]
+                        template: "\n            <sebm-google-map [lat]=\"lat\" [lng]=\"lng\" [zoom]=\"zoom\">\n                <my-map-control></my-map-control>\n\t    \t</sebm-google-map>\n    ",
+                        directives: [core_2.ANGULAR2_GOOGLE_MAPS_DIRECTIVES, my_map_control_component_1.MyMapControlComponent]
                     }), 
-                    __metadata('design:paramtypes', [])
+                    __metadata('design:paramtypes', [http_1.Http])
                 ], MapComponent);
                 return MapComponent;
             })();
