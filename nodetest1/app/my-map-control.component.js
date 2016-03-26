@@ -8,7 +8,7 @@ System.register(['angular2/core', 'angular2-google-maps/services', "angular2/htt
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, services_1, http_1, core_2, router_1, core_3;
+    var core_1, services_1, http_1, core_2, router_1, core_3, router_2;
     var MyMapControlComponent;
     return {
         setters:[
@@ -27,15 +27,17 @@ System.register(['angular2/core', 'angular2-google-maps/services', "angular2/htt
             },
             function (router_1_1) {
                 router_1 = router_1_1;
+                router_2 = router_1_1;
             }],
         execute: function() {
             MyMapControlComponent = (function () {
-                function MyMapControlComponent(_http, _wrapper, _ngZone, _renderer) {
+                function MyMapControlComponent(_http, _wrapper, _ngZone, _renderer, _router) {
                     var _this = this;
                     this._http = _http;
                     this._wrapper = _wrapper;
                     this._ngZone = _ngZone;
                     this._renderer = _renderer;
+                    this._router = _router;
                     this._wrapper.getMap().then(function (m) {
                         _this._map = m;
                         m.setCenter(new google.maps.LatLng(60.463048, 22.262516));
@@ -45,18 +47,21 @@ System.register(['angular2/core', 'angular2-google-maps/services', "angular2/htt
                     });
                 }
                 MyMapControlComponent.prototype.createMarker = function (coordinate, stopID, name) {
-                    var _this = this;
-                    this._ngZone.run(function () {
-                        var marker = new google.maps.Marker({
-                            map: _this._map,
-                            position: coordinate
-                        });
-                        var map = _this._map;
-                        var infoWindow = _this._info;
-                        var stop = stopID;
-                        google.maps.event.addListener(marker, 'click', function (event) {
-                            infoWindow.setContent("<b>#" + stop + " " + name + "</b><p style='margin-top: 1em; font-size: 16px;'><a href='/stop/" + stopID + "/'>Näytä aikataulut</a></p>");
-                            infoWindow.open(map, marker);
+                    var marker = new google.maps.Marker({
+                        map: this._map,
+                        position: coordinate
+                    });
+                    var map = this._map;
+                    var infoWindow = this._info;
+                    var stop = stopID;
+                    var renderer = this._renderer;
+                    var router = this._router;
+                    google.maps.event.addListener(marker, 'click', function (event) {
+                        infoWindow.setContent("<b>#" + stop + " " + name + "</b><p style='margin-top: 1em; font-size: 16px;'>" +
+                            "<a id='infoLink'>Näytä aikataulut</a></p>");
+                        infoWindow.open(map, marker);
+                        document.getElementById("infoLink").addEventListener("click", function (e) {
+                            router.navigate(["Stop", { id: parseInt(stop) }]);
                         });
                     });
                 };
@@ -90,7 +95,7 @@ System.register(['angular2/core', 'angular2-google-maps/services', "angular2/htt
                         template: '',
                         directives: [router_1.ROUTER_DIRECTIVES]
                     }), 
-                    __metadata('design:paramtypes', [http_1.Http, services_1.GoogleMapsAPIWrapper, core_2.NgZone, core_3.Renderer])
+                    __metadata('design:paramtypes', [http_1.Http, services_1.GoogleMapsAPIWrapper, core_2.NgZone, core_3.Renderer, router_2.Router])
                 ], MyMapControlComponent);
                 return MyMapControlComponent;
             })();

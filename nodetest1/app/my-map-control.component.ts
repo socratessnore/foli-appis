@@ -5,6 +5,7 @@ import {Http} from "angular2/http";
 import {NgZone} from "angular2/core";
 import {ROUTER_DIRECTIVES} from "angular2/router";
 import {Renderer} from "angular2/core";
+import {Router} from "angular2/router";
 
 @Component({
     selector: 'my-map-control',
@@ -20,7 +21,8 @@ export class MyMapControlComponent {
         public _http: Http,
         public _wrapper: GoogleMapsAPIWrapper,
         public _ngZone: NgZone,
-        public _renderer: Renderer
+        public _renderer: Renderer,
+        public _router: Router
     ) {
         this._wrapper.getMap().then((m) => {
             this._map = m;
@@ -34,7 +36,7 @@ export class MyMapControlComponent {
     }
 
     public createMarker (coordinate, stopID, name) {
-        this._ngZone.run(() => {
+
 
             var marker = new google.maps.Marker({
                 map: this._map,
@@ -45,12 +47,18 @@ export class MyMapControlComponent {
             var infoWindow = this._info;
             var stop = stopID;
 
-            google.maps.event.addListener(marker, 'click', function (event) {
-                infoWindow.setContent("<b>#"+ stop + " " + name + "</b><p style='margin-top: 1em; font-size: 16px;'><a href='/stop/"+stopID+"/'>Näytä aikataulut</a></p>");
-                infoWindow.open(map, marker);
-            });
+            var renderer = this._renderer;
+            var router = this._router;
 
-        });
+            google.maps.event.addListener(marker, 'click', function (event) {
+                infoWindow.setContent("<b>#"+ stop + " " + name + "</b><p style='margin-top: 1em; font-size: 16px;'>" +
+                    "<a id='infoLink'>Näytä aikataulut</a></p>");
+                infoWindow.open(map, marker);
+
+                document.getElementById("infoLink").addEventListener("click", function(e) {
+                    router.navigate(["Stop", {id: parseInt(stop)}]);
+                });
+            });
 
     }
 
