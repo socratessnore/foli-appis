@@ -2,10 +2,12 @@ import {Component} from 'angular2/core';
 import {GoogleMapsAPIWrapper} from 'angular2-google-maps/services';
 import {Jsonp} from "angular2/http";
 import {Http} from "angular2/http";
-import {NgZone} from "angular2/core";
 import {ROUTER_DIRECTIVES} from "angular2/router";
 import {Renderer} from "angular2/core";
 import {Router} from "angular2/router";
+import {EventEmitter} from "angular2/core";
+import {Output} from "angular2/core";
+import {NgZone} from "angular2/core";
 
 @Component({
     selector: 'my-map-control',
@@ -17,12 +19,14 @@ export class MyMapControlComponent {
     private _map;
     private _marker;
 
+    @Output() housu = new EventEmitter();
+
     constructor(
         public _http: Http,
         public _wrapper: GoogleMapsAPIWrapper,
-        public _ngZone: NgZone,
         public _renderer: Renderer,
-        public _router: Router
+        public _router: Router,
+        public _zone:NgZone
     ) {
         this._wrapper.getMap().then((m) => {
             this._map = m;
@@ -36,7 +40,7 @@ export class MyMapControlComponent {
     }
 
     public createMarker (coordinate, stopID, name) {
-        
+
             var marker = new google.maps.Marker({
                 map: this._map,
                 position: coordinate
@@ -48,14 +52,17 @@ export class MyMapControlComponent {
 
             var renderer = this._renderer;
             var router = this._router;
+            var zone = this._zone;
+
+            var housu = this.housu;
 
             google.maps.event.addListener(marker, 'click', function (event) {
                 infoWindow.setContent("<b>#"+ stop + " " + name + "</b><p style='margin-top: 1em; font-size: 16px;'>" +
-                    "<a id='infoLink'>Näytä aikataulut</a></p>");
+                    "<a id='infoLink'>Näytä seuraavat lähdöt</a></p>");
                 infoWindow.open(map, marker);
 
                 document.getElementById("infoLink").addEventListener("click", function(e) {
-                    router.navigate(["Stop", {id: parseInt(stop)}]);
+                    zone.run(() => router.navigate(["Stop", {id: stop}]));
                 });
             });
 

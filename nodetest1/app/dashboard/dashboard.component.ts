@@ -1,14 +1,15 @@
 import {Component} from "angular2/core";
 import {MDL} from "../mdl.directive";
+import {ROUTER_DIRECTIVES} from "angular2/router";
 @Component({
     selector: 'dashboard-component',
-    directives: [MDL],
+    directives: [MDL, ROUTER_DIRECTIVES],
     template: `
     <div style="padding: 1em;" class="mdl-padding--1em">
         <h4>Pysäkit</h4>
 
         <ul class="mdl-list">
-            <li class="mdl-list__item mdl-list__item--three-line">
+            <li [routerLink]="['Stop', {id: 15}]" class="mdl-list__item mdl-list__item--three-line">
                 <span class="mdl-list__item-primary-content">
                     <i class="material-icons mdl-list__item-avatar">directions_bus</i>
                     <span>Nostoväenkatu #982</span>
@@ -42,6 +43,4 @@ import {MDL} from "../mdl.directive";
     </div>
     `
 })
-export class DashboardComponent {
-
-}
+export class DashboardComponent {}

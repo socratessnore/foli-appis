@@ -4,6 +4,10 @@ import {NgFor} from "angular2/common";
 import {Pipe} from "angular2/core";
 import {Directive} from "angular2/core";
 import {ElementRef} from "angular2/core";
+import {Observer} from "rxjs/Observer";
+import {Observable} from "rxjs/Observable";
+import {Response} from "angular2/http";
+import {NgZone} from "angular2/core";
 
 @Directive({
     selector: '[StyleFilter]',
@@ -101,7 +105,7 @@ export class StopComponent {
 
     private showMinutesLimit = 20;
 
-    constructor(public _http: Http) {};
+    constructor(public _http: Http, public zone:NgZone) {};
 
     private filterLine(e) {
 
@@ -124,7 +128,8 @@ export class StopComponent {
     }
 
     private getStops() {
-        return this._http.get("http://localhost:3000/stoptimes.json").subscribe(
+        return this._http.get("http://localhost:3000/stoptimes.json")
+        .subscribe(
             res => {
                 this.stops = res.json();
 
@@ -156,12 +161,23 @@ export class StopComponent {
                     return parseInt(a) - parseInt(b)
                 });
 
-            }
+            },
+            err => console.error(err),
+            () => console.log("EOF")
         );
     }
 
+    ngOnInit() {
+        console.log("STARTTA");
+        this.zone.run(() => this.getStops());
+    }
+
+    ngOnDestroy() {
+        console.log("DESTROY EVERYTHING!");
+    }
+
     ngAfterViewInit() {
-        this.getStops();
+
     }
 
 }

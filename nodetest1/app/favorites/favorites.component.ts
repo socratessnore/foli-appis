@@ -7,6 +7,4 @@ import {Component} from "angular2/core";
     </div>
     `
 })
-export class FavoritesComponent {
-
-}
+export class FavoritesComponent {}

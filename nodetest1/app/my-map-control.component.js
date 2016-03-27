@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2-google-maps/services', "angular2/http", "angular2/core", "angular2/router"], function(exports_1) {
+System.register(['angular2/core', 'angular2-google-maps/services', "angular2/http", "angular2/router", "angular2/core"], function(exports_1) {
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,7 +8,7 @@ System.register(['angular2/core', 'angular2-google-maps/services', "angular2/htt
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, services_1, http_1, core_2, router_1, core_3, router_2;
+    var core_1, services_1, http_1, router_1, core_2, router_2, core_3, core_4, core_5;
     var MyMapControlComponent;
     return {
         setters:[
@@ -21,23 +21,26 @@ System.register(['angular2/core', 'angular2-google-maps/services', "angular2/htt
             function (http_1_1) {
                 http_1 = http_1_1;
             },
-            function (core_2_1) {
-                core_2 = core_2_1;
-                core_3 = core_2_1;
-            },
             function (router_1_1) {
                 router_1 = router_1_1;
                 router_2 = router_1_1;
+            },
+            function (core_2_1) {
+                core_2 = core_2_1;
+                core_3 = core_2_1;
+                core_4 = core_2_1;
+                core_5 = core_2_1;
             }],
         execute: function() {
             MyMapControlComponent = (function () {
-                function MyMapControlComponent(_http, _wrapper, _ngZone, _renderer, _router) {
+                function MyMapControlComponent(_http, _wrapper, _renderer, _router, _zone) {
                     var _this = this;
                     this._http = _http;
                     this._wrapper = _wrapper;
-                    this._ngZone = _ngZone;
                     this._renderer = _renderer;
                     this._router = _router;
+                    this._zone = _zone;
+                    this.housu = new core_3.EventEmitter();
                     this._wrapper.getMap().then(function (m) {
                         _this._map = m;
                         m.setCenter(new google.maps.LatLng(60.463048, 22.262516));
@@ -56,12 +59,14 @@ System.register(['angular2/core', 'angular2-google-maps/services', "angular2/htt
                     var stop = stopID;
                     var renderer = this._renderer;
                     var router = this._router;
+                    var zone = this._zone;
+                    var housu = this.housu;
                     google.maps.event.addListener(marker, 'click', function (event) {
                         infoWindow.setContent("<b>#" + stop + " " + name + "</b><p style='margin-top: 1em; font-size: 16px;'>" +
-                            "<a id='infoLink'>Näytä aikataulut</a></p>");
+                            "<a id='infoLink'>Näytä seuraavat lähdöt</a></p>");
                         infoWindow.open(map, marker);
                         document.getElementById("infoLink").addEventListener("click", function (e) {
-                            router.navigate(["Stop", { id: parseInt(stop) }]);
+                            zone.run(function () { return router.navigate(["Stop", { id: stop }]); });
                         });
                     });
                 };
@@ -89,13 +94,17 @@ System.register(['angular2/core', 'angular2-google-maps/services', "angular2/htt
                         }
                     }, function (err) { return console.error(err); });
                 };
+                __decorate([
+                    core_4.Output(), 
+                    __metadata('design:type', Object)
+                ], MyMapControlComponent.prototype, "housu", void 0);
                 MyMapControlComponent = __decorate([
                     core_1.Component({
                         selector: 'my-map-control',
                         template: '',
                         directives: [router_1.ROUTER_DIRECTIVES]
                     }), 
-                    __metadata('design:paramtypes', [http_1.Http, services_1.GoogleMapsAPIWrapper, core_2.NgZone, core_3.Renderer, router_2.Router])
+                    __metadata('design:paramtypes', [http_1.Http, services_1.GoogleMapsAPIWrapper, core_2.Renderer, router_2.Router, core_5.NgZone])
                 ], MyMapControlComponent);
                 return MyMapControlComponent;
             })();

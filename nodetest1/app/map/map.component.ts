@@ -2,6 +2,7 @@ import {Component} from "angular2/core";
 import {ANGULAR2_GOOGLE_MAPS_DIRECTIVES, ANGULAR2_GOOGLE_MAPS_PROVIDERS} from 'angular2-google-maps/core';
 import {Http} from "angular2/http";
 import {MyMapControlComponent} from "../my-map-control.component";
+import {Router} from "angular2/router";
 
 @Component({
     selector: 'map-component',
@@ -17,6 +18,5 @@ export class MapComponent {
 	lat: number = 60.463048;
     zoom: number = 11;
 
-    constructor(public _http: Http) {}
-
+    constructor(public _http: Http, public _router: Router) {}
 }
