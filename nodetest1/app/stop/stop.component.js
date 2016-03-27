@@ -123,17 +123,11 @@ System.register(["angular2/core", "angular2/http"], function(exports_1) {
                         _this.buslines = _this.buslines.sort(function (a, b) {
                             return parseInt(a) - parseInt(b);
                         });
-                    }, function (err) { return console.error(err); }, function () { return console.log("EOF"); });
+                    }, function (err) { return console.error(err); });
                 };
                 StopComponent.prototype.ngOnInit = function () {
                     var _this = this;
-                    console.log("STARTTA");
                     this.zone.run(function () { return _this.getStops(); });
-                };
-                StopComponent.prototype.ngOnDestroy = function () {
-                    console.log("DESTROY EVERYTHING!");
-                };
-                StopComponent.prototype.ngAfterViewInit = function () {
                 };
                 StopComponent = __decorate([
                     core_1.Component({

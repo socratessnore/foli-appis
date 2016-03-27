@@ -19,8 +19,6 @@ export class MyMapControlComponent {
     private _map;
     private _marker;
 
-    @Output() housu = new EventEmitter();
-
     constructor(
         public _http: Http,
         public _wrapper: GoogleMapsAPIWrapper,
@@ -53,8 +51,6 @@ export class MyMapControlComponent {
             var renderer = this._renderer;
             var router = this._router;
             var zone = this._zone;
-
-            var housu = this.housu;
 
             google.maps.event.addListener(marker, 'click', function (event) {
                 infoWindow.setContent("<b>#"+ stop + " " + name + "</b><p style='margin-top: 1em; font-size: 16px;'>" +

@@ -162,22 +162,11 @@ export class StopComponent {
                 });
 
             },
-            err => console.error(err),
-            () => console.log("EOF")
+            err => console.error(err)
         );
     }
 
     ngOnInit() {
-        console.log("STARTTA");
         this.zone.run(() => this.getStops());
     }
-
-    ngOnDestroy() {
-        console.log("DESTROY EVERYTHING!");
-    }
-
-    ngAfterViewInit() {
-
-    }
-
 }

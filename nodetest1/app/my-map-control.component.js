@@ -8,7 +8,7 @@ System.register(['angular2/core', 'angular2-google-maps/services', "angular2/htt
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, services_1, http_1, router_1, core_2, router_2, core_3, core_4, core_5;
+    var core_1, services_1, http_1, router_1, core_2, router_2, core_3;
     var MyMapControlComponent;
     return {
         setters:[
@@ -28,8 +28,6 @@ System.register(['angular2/core', 'angular2-google-maps/services', "angular2/htt
             function (core_2_1) {
                 core_2 = core_2_1;
                 core_3 = core_2_1;
-                core_4 = core_2_1;
-                core_5 = core_2_1;
             }],
         execute: function() {
             MyMapControlComponent = (function () {
@@ -40,7 +38,6 @@ System.register(['angular2/core', 'angular2-google-maps/services', "angular2/htt
                     this._renderer = _renderer;
                     this._router = _router;
                     this._zone = _zone;
-                    this.housu = new core_3.EventEmitter();
                     this._wrapper.getMap().then(function (m) {
                         _this._map = m;
                         m.setCenter(new google.maps.LatLng(60.463048, 22.262516));
@@ -60,7 +57,6 @@ System.register(['angular2/core', 'angular2-google-maps/services', "angular2/htt
                     var renderer = this._renderer;
                     var router = this._router;
                     var zone = this._zone;
-                    var housu = this.housu;
                     google.maps.event.addListener(marker, 'click', function (event) {
                         infoWindow.setContent("<b>#" + stop + " " + name + "</b><p style='margin-top: 1em; font-size: 16px;'>" +
                             "<a id='infoLink'>Näytä seuraavat lähdöt</a></p>");
@@ -94,17 +90,13 @@ System.register(['angular2/core', 'angular2-google-maps/services', "angular2/htt
                         }
                     }, function (err) { return console.error(err); });
                 };
-                __decorate([
-                    core_4.Output(), 
-                    __metadata('design:type', Object)
-                ], MyMapControlComponent.prototype, "housu", void 0);
                 MyMapControlComponent = __decorate([
                     core_1.Component({
                         selector: 'my-map-control',
                         template: '',
                         directives: [router_1.ROUTER_DIRECTIVES]
                     }), 
-                    __metadata('design:paramtypes', [http_1.Http, services_1.GoogleMapsAPIWrapper, core_2.Renderer, router_2.Router, core_5.NgZone])
+                    __metadata('design:paramtypes', [http_1.Http, services_1.GoogleMapsAPIWrapper, core_2.Renderer, router_2.Router, core_3.NgZone])
                 ], MyMapControlComponent);
                 return MyMapControlComponent;
             })();
