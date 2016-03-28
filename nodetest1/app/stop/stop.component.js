@@ -1,4 +1,4 @@
-System.register(["angular2/core", "angular2/http"], function(exports_1) {
+System.register(["angular2/core", "angular2/http", "angular2/router"], function(exports_1) {
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,7 +8,7 @@ System.register(["angular2/core", "angular2/http"], function(exports_1) {
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, http_1, core_2, core_3, core_4, core_5;
+    var core_1, http_1, core_2, core_3, core_4, core_5, router_1;
     var StyleFilter, FilterPipe, StopComponent;
     return {
         setters:[
@@ -21,6 +21,9 @@ System.register(["angular2/core", "angular2/http"], function(exports_1) {
             },
             function (http_1_1) {
                 http_1 = http_1_1;
+            },
+            function (router_1_1) {
+                router_1 = router_1_1;
             }],
         execute: function() {
             StyleFilter = (function () {
@@ -76,9 +79,10 @@ System.register(["angular2/core", "angular2/http"], function(exports_1) {
             })();
             exports_1("FilterPipe", FilterPipe);
             StopComponent = (function () {
-                function StopComponent(_http, zone) {
+                function StopComponent(_http, zone, _params) {
                     this._http = _http;
                     this.zone = zone;
+                    this._params = _params;
                     this.stops = { "result": [] };
                     this.buslines = [];
                     this.filteredBuslines = [];
@@ -99,9 +103,11 @@ System.register(["angular2/core", "angular2/http"], function(exports_1) {
                     //var currentTime = (Date.now()/1000);
                     return Math.round((arrivalTime - currentTime) / 60);
                 };
-                StopComponent.prototype.getStops = function () {
+                StopComponent.prototype.getStops = function (stopID) {
                     var _this = this;
-                    return this._http.get("http://localhost:3000/stoptimes.json")
+                    console.log(stopID);
+                    var url = "http://data.foli.fi/siri/sm/" + stopID + "/pretty";
+                    return this._http.get(url)
                         .subscribe(function (res) {
                         _this.stops = res.json();
                         for (var i in _this.stops.result) {
@@ -126,8 +132,8 @@ System.register(["angular2/core", "angular2/http"], function(exports_1) {
                     }, function (err) { return console.error(err); });
                 };
                 StopComponent.prototype.ngOnInit = function () {
-                    var _this = this;
-                    this.zone.run(function () { return _this.getStops(); });
+                    var stopID = this._params.get("id");
+                    this.getStops(stopID);
                 };
                 StopComponent = __decorate([
                     core_1.Component({
@@ -136,7 +142,7 @@ System.register(["angular2/core", "angular2/http"], function(exports_1) {
                         directives: [StyleFilter],
                         template: "\n        <div class=\"stop-listing mdl-padding--1em\">\n\n            <h4>Linja-autoasema #19</h4>\n\n            <div\n                *ngFor=\"#busline of buslines\"\n                StyleFilter\n                (click)=\"filterLine(busline)\"\n                class=\"foli-busline__tag\"\n            >\n                Linja {{ busline }}\n            </div>\n\n            <ul class=\"mdl-list\">\n                <li *ngFor=\"#stop of stops.result | filter : filteredBuslines\" class=\"mdl-list__item mdl-list__item--three-line\">\n                    <span class=\"mdl-list__item-primary-content\">\n                        <div style=\"text-align: center\" class=\"mdl-list__item-avatar\">\n                            <span style=\"position: relative; top: 2px; font-weight: bold; text-align: center; font-size: 16px\">{{ stop.lineref }}</span>\n                        </div>\n                        <div style=\"margin-top: 10px; font-weight: bold;\">{{ stop.destinationdisplay }}</div>\n                    </span>\n                    <span class=\"mdl-list__item-secondary-content\">\n                        <span style=\"margin-top: 12px\" *ngIf=\"stop.minutesToBus < 20\">\n                            {{ stop.minutesToBus }} min\n                        </span>\n                        <span style=\"margin-top: 12px\" *ngIf=\"stop.minutesToBus > 20\">\n                            {{ stop.format_time }}\n                        </span>\n                    </span>\n                </li>\n            </ul>\n        </div>\n    "
                     }), 
-                    __metadata('design:paramtypes', [http_1.Http, core_5.NgZone])
+                    __metadata('design:paramtypes', [http_1.Http, core_5.NgZone, router_1.RouteParams])
                 ], StopComponent);
                 return StopComponent;
             })();

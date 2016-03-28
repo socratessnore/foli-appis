@@ -8,6 +8,7 @@ import {Observer} from "rxjs/Observer";
 import {Observable} from "rxjs/Observable";
 import {Response} from "angular2/http";
 import {NgZone} from "angular2/core";
+import {RouteParams} from "angular2/router";
 
 @Directive({
     selector: '[StyleFilter]',
@@ -105,7 +106,11 @@ export class StopComponent {
 
     private showMinutesLimit = 20;
 
-    constructor(public _http: Http, public zone:NgZone) {};
+    constructor(
+        public _http: Http,
+        public zone:NgZone,
+        public _params: RouteParams
+    ) {};
 
     private filterLine(e) {
 
@@ -127,8 +132,12 @@ export class StopComponent {
 
     }
 
-    private getStops() {
-        return this._http.get("http://localhost:3000/stoptimes.json")
+    private getStops(stopID:number) {
+        console.log(stopID);
+
+        var url = "http://data.foli.fi/siri/sm/"+stopID+"/pretty";
+
+        return this._http.get(url)
         .subscribe(
             res => {
                 this.stops = res.json();
@@ -167,6 +176,7 @@ export class StopComponent {
     }
 
     ngOnInit() {
-        this.zone.run(() => this.getStops());
+        var stopID = this._params.get("id");
+        this.getStops(stopID);
     }
 }
