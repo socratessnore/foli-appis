@@ -85,7 +85,6 @@ System.register(['angular2/core', 'angular2-google-maps/services', "angular2/htt
                         for (var i in rows) {
                             var coordinate = new google.maps.LatLng(rows[i][3], rows[i][4]);
                             var stopID = rows[i][0];
-                            console.log(stopID);
                             var name = rows[i][1];
                             _this.createMarker(coordinate, stopID, name);
                         }

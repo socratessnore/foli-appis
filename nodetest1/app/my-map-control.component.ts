@@ -89,7 +89,6 @@ export class MyMapControlComponent {
             for (var i in rows) {
                 var coordinate = new google.maps.LatLng(rows[i][3],rows[i][4]);
                 var stopID = rows[i][0];
-                console.log(stopID);
                 var name = rows[i][1];
                 this.createMarker(coordinate, stopID, name);
 			}

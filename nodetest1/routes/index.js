@@ -17,9 +17,11 @@ router.get('/', function(req, res, next) {
 
 router.get('/api/v1/stops/*', function(req, res, next) {
 
-  var param = req['params'][0]+"%";
+  //TODO Sanitoi stringit
+  var param_id = req['params'][0];
+  var param_name = req['params'][0]+"%";
 
-  connection.query('SELECT * FROM stops WHERE stop_id LIKE ? OR stop_name LIKE ?', [param, param], function(err, rows, fields) {
+  connection.query('SELECT * FROM stops WHERE stop_id = ? OR stop_name LIKE ?', [param_id, param_name], function(err, rows, fields) {
     if (!err)
       res.json({rows});
     else
