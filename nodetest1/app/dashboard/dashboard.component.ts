@@ -17,7 +17,7 @@ import {Http} from "angular2/http";
     selector: 'dashboard-component',
     directives: [MDL, ROUTER_DIRECTIVES],
     template: `
-    <div style="padding: 1em;" class="mdl-padding--1em">
+    <div style="padding: 1em; height: calc(100vh - 175px); overflow-y: scroll;" class="mdl-padding--1em">
         <h4>Pysäkit</h4>
 
         <ul class="mdl-list">
@@ -33,7 +33,7 @@ import {Http} from "angular2/http";
             </li>
         </ul>
 
-        <div style="height: 75px; position: absolute; bottom: 75px; width: 100%" class="mdl-layout__header-row foli-background--white">
+        <div style="height: 75px; position: fixed; bottom: 60px; width: 100%" class="mdl-layout__header-row foli-background--white">
             <div class="foli-navigaatio__searchbox">
                 <form action="#">
 
@@ -70,7 +70,10 @@ export class DashboardComponent {
                 if(term.length > 0) {
                     this._http
                         .get('http://localhost:3000/api/v1/stops/' + term)
-                        .subscribe(response => this.items = response.json());
+                        .subscribe(response => {
+                            console.log(response.json());
+                            this.items = response.json();
+                        });
                 }
             });
     }
