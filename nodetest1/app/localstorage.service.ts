@@ -18,8 +18,6 @@ export class LocalStorageService {
             window.localStorage.setItem("stopStorage", JSON.stringify({}));
             this.localStorage = JSON.parse(localStorage);
         }
-        /*Check if localStorage value is valid JSON. If not init the variable with empty JSON object.*/
-        //if(!JSON.parse(this.localStorage)) this.localStorage = JSON.stringify({});
     }
 
     public getStorageData() {
@@ -31,16 +29,21 @@ export class LocalStorageService {
             this.localStorage = JSON.parse(localStorage);
         }
 
+        /*Return localStorage value as an Array so it can be passed to ngFor directive.*/
         return Object.keys(this.localStorage).map(key => this.localStorage[key]);
     }
 
     public addStorageData(value) {
-        var data = this.localStorage;
-        data[value.stop_id] = value;
-        window.localStorage.setItem("stopStorage", JSON.stringify(data));
+        this.localStorage[value.stop_id] = value;
+        this.save();
     }
 
-    public removeStorageData(item) {
+    public removeStorageData(item:number) {
+        delete this.localStorage[item];
+        this.save();
+    }
 
+    private save(data) {
+        window.localStorage.setItem("stopStorage", JSON.stringify(this.localStorage));
     }
 }

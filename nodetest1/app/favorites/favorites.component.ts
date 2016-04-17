@@ -15,7 +15,7 @@ import {ROUTER_DIRECTIVES} from "angular2/router";
                     <span class="mdl-list__item-text-body">Linjat 18, 88</span>
                 </span>
                 <span class="mdl-list__item-secondary-content">
-                    <i class="material-icons">delete</i>
+                    <i class="material-icons" (click)="removeFromFavorites(item.stop_id)">delete</i>
                     <i class="material-icons">directions</i>
                 </span>
             </li>
@@ -32,7 +32,16 @@ export class FavoritesComponent {
     }
 
     ngOnInit() {
+        this.getFavorites();
+    }
+
+    private getFavorites() {
         this.items = this._localStorage.getStorageData();
+    }
+
+    public removeFromFavorites(stop_id:number) {
+        this._localStorage.removeStorageData(stop_id);
+        this.getFavorites();
     }
 
 }

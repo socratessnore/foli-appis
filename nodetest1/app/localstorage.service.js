@@ -30,8 +30,6 @@ System.register(["angular2/core", 'rxjs/add/operator/map', 'rxjs/add/operator/de
                         window.localStorage.setItem("stopStorage", JSON.stringify({}));
                         this.localStorage = JSON.parse(localStorage);
                     }
-                    /*Check if localStorage value is valid JSON. If not init the variable with empty JSON object.*/
-                    //if(!JSON.parse(this.localStorage)) this.localStorage = JSON.stringify({});
                 }
                 LocalStorageService.prototype.getStorageData = function () {
                     var _this = this;
@@ -43,14 +41,19 @@ System.register(["angular2/core", 'rxjs/add/operator/map', 'rxjs/add/operator/de
                         window.localStorage.setItem("stopStorage", JSON.stringify({}));
                         this.localStorage = JSON.parse(localStorage);
                     }
+                    /*Return localStorage value as an Array so it can be passed to ngFor directive.*/
                     return Object.keys(this.localStorage).map(function (key) { return _this.localStorage[key]; });
                 };
                 LocalStorageService.prototype.addStorageData = function (value) {
-                    var data = this.localStorage;
-                    data[value.stop_id] = value;
-                    window.localStorage.setItem("stopStorage", JSON.stringify(data));
+                    this.localStorage[value.stop_id] = value;
+                    this.save();
                 };
                 LocalStorageService.prototype.removeStorageData = function (item) {
+                    delete this.localStorage[item];
+                    this.save();
+                };
+                LocalStorageService.prototype.save = function (data) {
+                    window.localStorage.setItem("stopStorage", JSON.stringify(this.localStorage));
                 };
                 LocalStorageService = __decorate([
                     core_1.Injectable(), 
