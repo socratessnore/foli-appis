@@ -13,6 +13,7 @@ import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/switchMap';
 
 import {Http} from "angular2/http";
+import {LocalStorageService} from "../localstorage.service";
 @Component({
     selector: 'dashboard-component',
     directives: [MDL, ROUTER_DIRECTIVES],
@@ -21,13 +22,14 @@ import {Http} from "angular2/http";
         <h4>Pysäkit</h4>
 
         <ul class="mdl-list">
-            <li *ngFor="#item of items?.rows" [routerLink]="['Stop', {id: item.stop_id}]" class="mdl-list__item mdl-list__item--three-line">
-                <span class="mdl-list__item-primary-content">
+            <li *ngFor="#item of items?.rows" class="mdl-list__item mdl-list__item--three-line">
+                <span class="mdl-list__item-primary-content" [routerLink]="['Stop', {id: item.stop_id}]">
                     <i class="material-icons mdl-list__item-avatar">directions_bus</i>
                     <span>{{ item.stop_name }} #{{ item.stop_id }}</span>
                     <span class="mdl-list__item-text-body">Linjat 18, 88</span>
                 </span>
                 <span class="mdl-list__item-secondary-content">
+                    <i class="material-icons" (click)="saveToFavorites(item)">save</i>
                     <i class="material-icons">directions</i>
                 </span>
             </li>
@@ -60,7 +62,7 @@ export class DashboardComponent {
     items: Observable<Array<string>>;
     term = new Control();
 
-    constructor(private _http: Http) {
+    constructor(private _http: Http, public _localStorage: LocalStorageService) {
 
         this.term.valueChanges
             .debounceTime(400)
@@ -76,5 +78,9 @@ export class DashboardComponent {
                         });
                 }
             });
+    }
+
+    public saveToFavorites(data) {
+        this._localStorage.addStorageData(data);
     }
 }
