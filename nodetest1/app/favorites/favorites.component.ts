@@ -47,14 +47,6 @@ export class FavoritesComponent {
     public removeFromFavorites(stop_id:number) {
         this._localStorage.removeStorageData(stop_id);
         this.getFavorites();
-
-        var snackbarContainer = this._elementRef.nativeElement.querySelector("#demo-snackbar-example")
-                var data = {
-                    message: 'Pysäkki poistettu suosikeista.',
-                    timeout: 2000
-                };
-        snackbarContainer.MaterialSnackbar.showSnackbar(data);
-        window.componentHandler.upgradeAllRegistered();
     }
 
 }

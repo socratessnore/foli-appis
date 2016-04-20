@@ -12,9 +12,10 @@ export class LocalStorageService {
 
     constructor() {
         var localStorage = window.localStorage.getItem("stopStorage");
-        try {
+        var localStorageType = JSON.parse(localStorage);
+        if(localStorageType != null) {
             this.localStorage = JSON.parse(localStorage);
-        } catch(err) {
+        } else {
             window.localStorage.setItem("stopStorage", JSON.stringify({}));
             this.localStorage = JSON.parse(localStorage);
         }
@@ -44,8 +45,12 @@ export class LocalStorageService {
     }
 
     public isItemFavorited(item:number) {
-        if(this.localStorage.hasOwnProperty(item)) {
-            return true;
+        if(this.localStorage != null) {
+            if (this.localStorage.hasOwnProperty(item)) {
+                return true;
+            } else {
+                return false;
+            }
         } else {
             return false;
         }

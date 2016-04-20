@@ -23,10 +23,11 @@ System.register(["angular2/core", 'rxjs/add/operator/map', 'rxjs/add/operator/de
             LocalStorageService = (function () {
                 function LocalStorageService() {
                     var localStorage = window.localStorage.getItem("stopStorage");
-                    try {
+                    var localStorageType = JSON.parse(localStorage);
+                    if (localStorageType != null) {
                         this.localStorage = JSON.parse(localStorage);
                     }
-                    catch (err) {
+                    else {
                         window.localStorage.setItem("stopStorage", JSON.stringify({}));
                         this.localStorage = JSON.parse(localStorage);
                     }
@@ -53,8 +54,13 @@ System.register(["angular2/core", 'rxjs/add/operator/map', 'rxjs/add/operator/de
                     this.save();
                 };
                 LocalStorageService.prototype.isItemFavorited = function (item) {
-                    if (this.localStorage.hasOwnProperty(item)) {
-                        return true;
+                    if (this.localStorage != null) {
+                        if (this.localStorage.hasOwnProperty(item)) {
+                            return true;
+                        }
+                        else {
+                            return false;
+                        }
                     }
                     else {
                         return false;
