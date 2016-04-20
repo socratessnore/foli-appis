@@ -27,6 +27,10 @@ header {
 .mdl-list__item-avatar.material-icons {
     border-radius: 0;
 }
+
+.mdl-snackbar {
+    bottom: 75px;
+}
 /*MDL OVERRIDE EOF*/
 
 /*Grid*/

@@ -52,6 +52,14 @@ System.register(["angular2/core", 'rxjs/add/operator/map', 'rxjs/add/operator/de
                     delete this.localStorage[item];
                     this.save();
                 };
+                LocalStorageService.prototype.isItemFavorited = function (item) {
+                    if (this.localStorage.hasOwnProperty(item)) {
+                        return true;
+                    }
+                    else {
+                        return false;
+                    }
+                };
                 LocalStorageService.prototype.save = function (data) {
                     window.localStorage.setItem("stopStorage", JSON.stringify(this.localStorage));
                 };

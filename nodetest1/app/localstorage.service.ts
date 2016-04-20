@@ -43,6 +43,14 @@ export class LocalStorageService {
         this.save();
     }
 
+    public isItemFavorited(item:number) {
+        if(this.localStorage.hasOwnProperty(item)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     private save(data) {
         window.localStorage.setItem("stopStorage", JSON.stringify(this.localStorage));
     }

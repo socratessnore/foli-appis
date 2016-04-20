@@ -1,6 +1,7 @@
 import {Component} from "angular2/core";
 import {LocalStorageService} from "../localstorage.service";
 import {ROUTER_DIRECTIVES} from "angular2/router";
+import {ElementRef} from "angular2/core";
 @Component({
     selector: 'favorites-component',
     directives: [ROUTER_DIRECTIVES],
@@ -21,13 +22,17 @@ import {ROUTER_DIRECTIVES} from "angular2/router";
             </li>
         </ul>
     </div>
+    <div id="demo-snackbar-example" class="mdl-js-snackbar mdl-snackbar">
+      <div class="mdl-snackbar__text"></div>
+      <button class="mdl-snackbar__action" type="button"></button>
+    </div>
     `
 })
 export class FavoritesComponent {
 
     private items;
 
-    constructor(public _localStorage: LocalStorageService) {
+    constructor(public _localStorage: LocalStorageService, private _elementRef:ElementRef) {
         this.items = [];
     }
 
@@ -42,6 +47,14 @@ export class FavoritesComponent {
     public removeFromFavorites(stop_id:number) {
         this._localStorage.removeStorageData(stop_id);
         this.getFavorites();
+
+        var snackbarContainer = this._elementRef.nativeElement.querySelector("#demo-snackbar-example")
+                var data = {
+                    message: 'Pysäkki poistettu suosikeista.',
+                    timeout: 2000
+                };
+        snackbarContainer.MaterialSnackbar.showSnackbar(data);
+        window.componentHandler.upgradeAllRegistered();
     }
 
 }
